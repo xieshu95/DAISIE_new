@@ -15,6 +15,20 @@ are_rates <- function(rates) {
   if (rates$ext_rate < 0.0) return(FALSE)
   if (rates$ana_rate < 0.0) return(FALSE)
   if (rates$clado_rate < 0.0) return(FALSE)
+  if(length(rates) > 4){
+    if (!"immig_rate2" %in% names(rates)) return(FALSE)
+    if (!"ext_rate2" %in% names(rates)) return(FALSE)
+    if (!"ana_rate2" %in% names(rates)) return(FALSE)
+    if (!"clado_rate2" %in% names(rates)) return(FALSE)
+    if (!"trans_rate" %in% names(rates)) return(FALSE)
+    if (!"trans_rate2" %in% names(rates)) return(FALSE)
+    if (rates$immig_rate2 < 0.0) return(FALSE)
+    if (rates$ext_rate2 < 0.0) return(FALSE)
+    if (rates$ana_rate2 < 0.0) return(FALSE)
+    if (rates$clado_rate2 < 0.0) return(FALSE)
+    if (rates$trans_rate < 0.0) return(FALSE)
+    if (rates$trans_rate2 < 0.0) return(FALSE)
+    }
   TRUE
 }
 

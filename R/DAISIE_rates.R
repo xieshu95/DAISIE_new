@@ -48,7 +48,16 @@
 #' species (a.k.a non-endemic species).
 #' @param mu extinction rate
 #' @param dist_pars a numeric for the distance from the mainland.
-#'
+#' @param trait_pars A named list containing diversification rates considering two trait states:
+#' \itemize{
+#'   \item{[1]:A numeric with the per capita transition rate with state1}
+#'   \item{[2]:A numeric with the per capita immigration rate with state2}
+#'   \item{[3]:A numeric with the per capita extinction rate with state2}
+#'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
+#'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+#'   \item{[6]:A numeric with the per capita transition rate with state2}
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland}
+#' }
 #' @seealso \code{\link{update_max_rates}}
 #'
 #' @return a named list with the updated effective rates.
@@ -68,7 +77,9 @@ update_rates <- function(timeval,
                          K,
                          num_spec,
                          num_immigrants,
-                         mainland_n) {
+                         mainland_n,
+                         trait_pars = NULL,
+                         island_spec) {
   # Function to calculate rates at time = timeval. Returns list with each rate.
   testit::assert(is.numeric(timeval))
   testit::assert(is.numeric(totaltime))
@@ -79,6 +90,7 @@ update_rates <- function(timeval,
   testit::assert(are_hyper_pars(hyper_pars))
   testit::assert(are_area_pars(area_pars))
   testit::assert(are_dist_pars(dist_pars))
+  testit::assert(are_trait_pars(trait_pars))
   testit::assert(is.null(ext_pars) || is.numeric(ext_pars))
   testit::assert(is.numeric(island_ontogeny))
   testit::assert(is.numeric(extcutoff) || is.null(extcutoff))
@@ -87,6 +99,32 @@ update_rates <- function(timeval,
   testit::assert(is.numeric(num_immigrants) || is.null(num_immigrants))
   testit::assert(is.numeric(mainland_n))
   testit::assert(is.numeric(sea_level))
+  
+  if (!is.null(trait_pars)) {
+    return(
+      update_rates_trait(
+        timeval = timeval,
+        totaltime = totaltime,
+        gam = gam, 
+        mu = mu, 
+        laa = laa, 
+        lac = lac,
+        hyper_pars = hyper_pars,
+        area_pars = NULL,
+        dist_pars = NULL,
+        ext_pars = NULL,
+        island_ontogeny = island_ontogeny,
+        sea_level = sea_level,
+        extcutoff = extcutoff,
+        K = K,
+        mainland_n = mainland_n,
+        num_spec = num_spec,
+        num_immigrants = num_immigrants,
+        trait_pars = trait_pars,
+        island_spec = island_spec
+      )
+    )
+  }
   immig_rate <- get_immig_rate(
     timeval = timeval,
     totaltime = totaltime,
@@ -98,7 +136,9 @@ update_rates <- function(timeval,
     sea_level = sea_level,
     num_spec = num_spec,
     K = K,
-    mainland_n = mainland_n
+    mainland_n = mainland_n,
+    trait_pars = trait_pars,
+    island_spec = island_spec
   )
   testit::assert(is.numeric(immig_rate))
   ext_rate <- get_ext_rate(
@@ -111,14 +151,18 @@ update_rates <- function(timeval,
     sea_level = sea_level,
     extcutoff = extcutoff,
     num_spec = num_spec,
-    K = K
+    K = K,
+    trait_pars = trait_pars,
+    island_spec = island_spec
   )
   testit::assert(is.numeric(ext_rate))
   ana_rate <- get_ana_rate(
     laa = laa,
     hyper_pars = hyper_pars,
     dist_pars = dist_pars,
-    num_immigrants = num_immigrants
+    num_immigrants = num_immigrants,
+    trait_pars = trait_pars,
+    island_spec = island_spec
   )
   testit::assert(is.numeric(ana_rate))
   clado_rate <- get_clado_rate(
@@ -130,7 +174,9 @@ update_rates <- function(timeval,
     island_ontogeny = island_ontogeny,
     sea_level = sea_level,
     num_spec = num_spec,
-    K = K
+    K = K,
+    trait_pars = trait_pars,
+    island_spec = island_spec
   )
   testit::assert(is.numeric(clado_rate))
 
@@ -144,6 +190,108 @@ update_rates <- function(timeval,
   return(rates)
 }
 
+
+update_rates_trait <- function(timeval,
+                               totaltime,
+                               gam,
+                               laa,
+                               lac,
+                               mu,
+                               hyper_pars = hyper_pars,
+                               area_pars = NULL,
+                               dist_pars = NULL,
+                               ext_pars = NULL,
+                               island_ontogeny = NULL,
+                               sea_level = NULL,
+                               extcutoff,
+                               K,
+                               num_spec,
+                               num_immigrants,
+                               mainland_n,
+                               trait_pars = NULL,
+                               island_spec) {
+  # Function to calculate rates at time = timeval. Returns list with each rate.
+  
+  immig_rate <- get_immig_rate(
+    timeval = timeval,
+    totaltime = totaltime,
+    gam = gam,
+    hyper_pars = hyper_pars,
+    area_pars = area_pars,
+    dist_pars = dist_pars,
+    island_ontogeny = island_ontogeny,
+    sea_level = sea_level,
+    num_spec = num_spec,
+    K = K,
+    mainland_n = mainland_n,
+    trait_pars = trait_pars,
+    island_spec = island_spec)
+  testit::assert(is.numeric(immig_rate))
+  ext_rate <- get_ext_rate(
+    timeval = timeval,
+    mu = mu,
+    hyper_pars = hyper_pars,
+    area_pars = area_pars,
+    ext_pars = ext_pars,
+    island_ontogeny = island_ontogeny,
+    sea_level = sea_level,
+    extcutoff = extcutoff,
+    num_spec = num_spec,
+    K = K,
+    trait_pars = trait_pars,
+    island_spec = island_spec
+  )
+  testit::assert(is.numeric(ext_rate))
+  ana_rate <- get_ana_rate(
+    laa = laa,
+    hyper_pars = hyper_pars,
+    dist_pars = dist_pars,
+    num_immigrants = num_immigrants,
+    trait_pars = trait_pars,
+    island_spec = island_spec
+  )
+  testit::assert(is.numeric(ana_rate))
+  clado_rate <- get_clado_rate(
+    timeval = timeval,
+    lac = lac,
+    hyper_pars = hyper_pars,
+    area_pars = area_pars,
+    dist_pars = dist_pars,
+    island_ontogeny = island_ontogeny,
+    sea_level = sea_level,
+    num_spec = num_spec,
+    K = K,
+    trait_pars = trait_pars,
+    island_spec = island_spec
+  )
+  testit::assert(is.numeric(clado_rate))
+  
+  testit::assert(!is.null(trait_pars))
+  trans_rate <- get_trans_rate(trait_pars = trait_pars,
+                               island_spec = island_spec)
+  # trait_pars <- create_trait_pars(trans_rate = trans_rate$trans_rate1,
+  #                                    immig_rate2 = immig_rate$immig_rate2,
+  #                                    ext_rate2 = ext_rate$ext_rate2,
+  #                                    ana_rate2 = ana_rate$ana_rate2,
+  #                                    clado_rate2 = clado_rate$clado_rate2,
+  #                                    trans_rate2 = trans_rate$trans_rate2,
+  #                                    M2 = trait_pars$M2)
+  
+  rates <- list(
+    immig_rate = immig_rate$immig_rate1,
+    ext_rate = ext_rate$ext_rate1,
+    ana_rate = ana_rate$ana_rate1,
+    clado_rate = clado_rate$clado_rate1,
+    trans_rate = trans_rate$trans_rate1,
+    immig_rate2 = immig_rate$immig_rate2,
+    ext_rate2 = ext_rate$ext_rate2,
+    ana_rate2 = ana_rate$ana_rate2,
+    clado_rate2 = clado_rate$clado_rate2,
+    trans_rate2 = trans_rate$trans_rate2,
+    M2 = trait_pars$M2)
+  
+  return(rates)
+}
 #' Function to describe changes in area through time. Adapted from
 #' Valente et al 2014 ProcB
 #'
@@ -283,29 +431,50 @@ get_ext_rate <- function(timeval,
                          sea_level = 0,
                          extcutoff = 1000,
                          num_spec,
-                         K) {
+                         K,
+                         trait_pars,
+                         island_spec) {
   testit::assert(is.numeric(island_ontogeny))
   testit::assert(is.numeric(sea_level))
-  A <- island_area(
-    timeval,
-    area_pars,
-    island_ontogeny,
-    sea_level
-  )
-  if (island_ontogeny == 1 || sea_level == 1) {
-    x <- log(ext_pars[1] / ext_pars[2]) / log(0.1)
-  } else {
-    x <- hyper_pars$x
-    ext_pars[1] <- mu # Constant rate case
+  
+  if(is.null(trait_pars)){
+    A <- island_area(
+      timeval,
+      area_pars,
+      island_ontogeny,
+      sea_level
+    )
+    if (island_ontogeny == 1 || sea_level == 1) {
+      x <- log(ext_pars[1] / ext_pars[2]) / log(0.1)
+    } else {
+      x <- hyper_pars$x
+      ext_pars[1] <- mu # Constant rate case
+    }
+    ext_rate <- ext_pars[1] / ((A / area_pars$max_area) ^ x)
+    ext_rate <- ext_rate * num_spec
+    ext_rate <- min(ext_rate, extcutoff, na.rm = TRUE)
+    if (num_spec == 0) {
+      ext_rate <- 0
+    }
+    testit::assert(ext_rate >= 0)
+    return(ext_rate)
+  }else{   ##species have two states
+    if (is.matrix(island_spec) || is.null(island_spec)) {
+      N1 <- length(which(island_spec[, 8] == "1"))
+      N2 <- length(which(island_spec[, 8] == "2"))
+    } else if (is.numeric(island_spec)) {
+      stop("Different trait states cannot be separated,please transform to matrix form.")
+    }
+    ext_rate1 <- mu * N1
+    ext_rate2 <- trait_pars$ext_rate2 * N2
+    testit::assert(is.numeric(ext_rate1))
+    testit::assert(is.numeric(ext_rate2))
+    testit::assert(ext_rate1 >= 0)
+    testit::assert(ext_rate2 >= 0)
+    ext_list <- list(ext_rate1 = ext_rate1,
+                     ext_rate2 = ext_rate2)
+    return(ext_list)
   }
-  ext_rate <- ext_pars[1] / ((A / area_pars$max_area) ^ x)
-  ext_rate <- ext_rate * num_spec
-  ext_rate <- min(ext_rate, extcutoff, na.rm = TRUE)
-  if (num_spec == 0) {
-    ext_rate <- 0
-  }
-  testit::assert(ext_rate >= 0)
-  return(ext_rate)
 }
 
 #' Calculate anagenesis rate
@@ -333,14 +502,21 @@ get_ext_rate <- function(timeval,
 get_ana_rate <- function(laa,
                          hyper_pars,
                          dist_pars,
-                         num_immigrants) {
-  D <- dist_pars$D
-  beta <- hyper_pars$beta
-  ana_rate <- laa * num_immigrants * D ^ beta
-
-  testit::assert(is.numeric(ana_rate))
-  testit::assert(ana_rate >= 0)
-  return(ana_rate)
+                         num_immigrants,
+                         island_spec) {
+    D <- dist_pars$D
+    beta <- hyper_pars$beta
+    if(is.null(trait_pars)){
+    ana_rate <- laa * num_immigrants * D ^ beta
+    
+    testit::assert(is.numeric(ana_rate))
+    testit::assert(ana_rate >= 0)
+    return(ana_rate) 
+  }else{
+    
+    ana_rate1 <- laa * num_immigrants * D ^ beta
+  }
+ 
 }
 
 #' Calculate cladogenesis rate

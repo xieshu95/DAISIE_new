@@ -387,6 +387,17 @@
 #' individual lines. Can also be \code{"shade"} for the 5\% quantile.
 #' @param resolution numeric indicating resolution of plot. Should be < 0.
 #'
+#' @param trait_pars A named list containing diversification rates considering 
+#' two trait states created by \code{\link{create_trait_pars}}:
+#' \itemize{
+#'   \item{[1]:A numeric with the per capita transition rate with state1}
+#'   \item{[2]:A numeric with the per capita immigration rate with state2}
+#'   \item{[3]:A numeric with the per capita extinction rate with state2}
+#'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
+#'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+#'   \item{[6]:A numeric with the per capita transition rate with state2} 
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
+#' }
 #' @return Nothing
 #'
 default_params_doc <- function(
@@ -493,7 +504,8 @@ default_params_doc <- function(
   plot_lists_simulations,
   plot_lists_simulations_MLE,
   kind_of_plot,
-  resolution
+  resolution,
+  trait_pars
 ) {
   # Nothing
 }

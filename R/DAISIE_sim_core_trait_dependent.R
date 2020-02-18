@@ -6,23 +6,40 @@ DAISIE_sim_core_trait_dependent <- function(
   mainland_n,
   pars,
   nonoceanic_pars = c(0, 0),
+  island_ontogeny = 0,
+  sea_level = 0,
   hyper_pars = NULL,
   area_pars = NULL,
   dist_pars = NULL,
+  ext_pars = NULL,
+  extcutoff = 1000,
   trait_pars = NULL
 ) {
   
   #### Initialization ####
   timeval <- 0
   totaltime <- time
+  island_ontogeny <- translate_island_ontogeny(island_ontogeny)
+  sea_level <- translate_sea_level(sea_level)
   
-  testit::assert(length(pars) == 5 || length(pars) == 10)
-  
-  testit::assert(is.null(area_pars) || are_area_pars(area_pars))
+  testit::assert(length(pars) == 5)
+  if (!is.null(area_pars) &&
+      (island_ontogeny == 0 && sea_level == 0)) {
+    stop("area_pars specified for constant island_ontogeny and sea_level.
+         Run DAISIE_sim_constant_rate instead.")
+  }
+  testit::assert(are_area_pars(area_pars))
   if (pars[4] == 0 && nonoceanic_pars[1] == 0) {
     stop("Island has no species and the rate of
-         colonisation is zero. Island cannot be colonised.")
+    colonisation is zero. Island cannot be colonised.")
   }
+  if ((is.null(ext_pars) || is.null(area_pars)) &&
+      (island_ontogeny != 0 || sea_level != 0)) {
+    stop("Island ontogeny and/or sea level specified but area parameters
+    and/or extinction parameters not available. Please either set
+    island_ontogeny and sea_level to NULL, or specify area_pars and ext_pars.")
+  }
+  testit::assert(is.numeric(extcutoff))
   default_metapars <- create_default_pars(
     area_pars = area_pars,
     hyper_pars = hyper_pars,
@@ -95,15 +112,16 @@ DAISIE_sim_core_trait_dependent <- function(
       hyper_pars = hyper_pars,
       area_pars = area_pars,
       dist_pars = dist_pars,
-      ext_pars = NULL,
+      ext_pars = ext_pars,
       K = K,
       num_spec = num_spec,
       num_immigrants = num_immigrants,
       mainland_n = mainland_n,
-      extcutoff = NULL,
+      extcutoff = extcutoff,
       island_ontogeny = 0,
       sea_level = 0,
-      island_spec = island_spec
+      island_spec = island_spec,
+      trait_pars = trait_pars
     )
     testit::assert(are_rates(rates))
     timeval_and_dt <- calc_next_timeval(
@@ -130,21 +148,24 @@ DAISIE_sim_core_trait_dependent <- function(
         mainland_n = mainland_n,
         extcutoff = NULL,
         island_ontogeny = 0,
-        sea_level = 0
+        sea_level = 0,
+        island_spec = island_spec,
+        trait_pars = trait_pars
       )
       testit::assert(are_rates(rates))
-      possible_event <- DAISIE_sample_event_constant_rate(
+      possible_event <- DAISIE_sample_event_trait_dependent(
         rates = rates
       )
       
-      updated_state <- DAISIE_sim_update_state_constant_rate(
+      updated_state <- DAISIE_sim_update_state_trait_dependent(
         timeval = timeval,
         totaltime = totaltime,
         possible_event = possible_event,
         maxspecID = maxspecID,
         mainland_spec = mainland_spec,
         island_spec = island_spec,
-        stt_table = stt_table
+        stt_table = stt_table,
+        trait_pars = trait_pars
       )
       
       island_spec <- updated_state$island_spec
@@ -161,13 +182,17 @@ DAISIE_sim_core_trait_dependent <- function(
       0,
       stt_table[nrow(stt_table), 2],
       stt_table[nrow(stt_table), 3],
-      stt_table[nrow(stt_table), 4]
+      stt_table[nrow(stt_table), 4],
+      stt_table[nrow(stt_table), 5],
+      stt_table[nrow(stt_table), 6],
+      stt_table[nrow(stt_table), 7]
     )
   )
   island <- DAISIE_create_island(
     stt_table = stt_table,
     totaltime = totaltime,
     island_spec = island_spec,
-    mainland_n = mainland_n)
+    mainland_n = mainland_n,
+    trait_pars = trait_pars)
   return(island)
   }

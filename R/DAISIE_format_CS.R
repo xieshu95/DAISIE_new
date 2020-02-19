@@ -8,7 +8,8 @@ DAISIE_format_CS <- function(island_replicates,
                              time,
                              M,
                              sample_freq = 25,
-                             verbose = TRUE) {
+                             verbose = TRUE,
+                             trait_pars = NULL) {
   totaltime <- time
   if (is.infinite(sample_freq)) {
     several_islands <- DAISIE_format_CS_full_stt(

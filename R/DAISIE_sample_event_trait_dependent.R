@@ -20,7 +20,7 @@
 DAISIE_sample_event_trait_dependent <- function(rates) {
   testit::assert(are_rates(rates))
   
-  possible_event <- sample(1:10,
+  possible_event <- rng_respecting_sample(1:10,
                            1,
                            replace = FALSE,
                            prob = c(rates$immig_rate,
@@ -37,4 +37,13 @@ DAISIE_sample_event_trait_dependent <- function(rates) {
   testit::assert(is.numeric(possible_event))
   testit::assert(possible_event >= 1)
   return(possible_event)
+}
+
+rng_respecting_sample <- function (x, size, replace, prob)
+{
+  which_non_zero <- prob > 0
+  non_zero_prob <- prob[which_non_zero]
+  non_zero_x <- x[which_non_zero]
+  return(DDD::sample2(x = non_zero_x, size = size, replace = replace,
+                      prob = non_zero_prob))
 }

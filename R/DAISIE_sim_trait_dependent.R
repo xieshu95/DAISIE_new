@@ -175,7 +175,7 @@ DAISIE_sim_trait_dependent <- function(
       island_replicates[[rep]] <- list()
       full_list <- list()
       
-      trait_pars_addcol <- create_trait_state_params(trans_rate = 0,
+      trait_pars_addcol <- create_trait_pars(trans_rate = 0,
                                                      immig_rate2 = 0,
                                                      ext_rate2 = 0,
                                                      ana_rate2 = 0,
@@ -200,12 +200,12 @@ DAISIE_sim_trait_dependent <- function(
       }
       for(m_spec in (M + 1):(M + trait_pars$M2))
       {
-        trait_pars_onecolonize <- create_trait_pars(trans_rate = Tpars$trans_rate,
-                                                    immig_rate2 = Tpars$immig_rate2,
-                                                    ext_rate2 = Tpars$ext_rate2,
-                                                    ana_rate2 = Tpars$ana_rate2,
-                                                    clado_rate2 = Tpars$clado_rate2,
-                                                    trans_rate2 = Tpars$trans_rate2,
+        trait_pars_onecolonize <- create_trait_pars(trans_rate = trait_pars$trans_rate,
+                                                    immig_rate2 = trait_pars$immig_rate2,
+                                                    ext_rate2 = trait_pars$ext_rate2,
+                                                    ana_rate2 = trait_pars$ana_rate2,
+                                                    clado_rate2 = trait_pars$clado_rate2,
+                                                    trans_rate2 = trait_pars$trans_rate2,
                                                     M2 = 1)
         full_list[[m_spec]] <- DAISIE_sim_core_trait_dependent(
           time = totaltime,

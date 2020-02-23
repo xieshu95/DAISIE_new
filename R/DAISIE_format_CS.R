@@ -16,7 +16,8 @@ DAISIE_format_CS <- function(island_replicates,
       island_replicates = island_replicates,
       time = totaltime,
       M = M,
-      verbose = verbose
+      verbose = verbose,
+      trait_pars = trait_pars
     )
   } else {
     several_islands <- DAISIE_format_CS_sampled_stt(
@@ -24,7 +25,8 @@ DAISIE_format_CS <- function(island_replicates,
       sample_freq = sample_freq,
       time = totaltime,
       M = M,
-      verbose = verbose
+      verbose = verbose,
+      trait_pars = trait_pars
     )
   }
   return(several_islands)

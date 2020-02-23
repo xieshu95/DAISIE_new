@@ -175,6 +175,33 @@ DAISIE_sim_trait_dependent <- function(
       island_replicates[[rep]] <- list()
       full_list <- list()
       
+      # if(M == 0){
+      #   if(is.null(Tpars)){
+      #     stop("There is no species on mainland.")
+      #   }else{   ## only have state2 species on mainland
+      #     Tpars_onecolonize <- create_trait_state_params(trans_rate = Tpars$trans_rate,
+      #                                                    immig_rate2 = Tpars$immig_rate2,
+      #                                                    ext_rate2 = Tpars$ext_rate2,
+      #                                                    ana_rate2 = Tpars$ana_rate2,
+      #                                                    clado_rate2 = Tpars$clado_rate2,
+      #                                                    trans_rate2 = Tpars$trans_rate2,
+      #                                                    M2 = 1)
+      #     for (m_spec in 1:Tpars$M2) {
+      #       full_list[[m_spec]] <- DAISIE_sim_core(
+      #         time = totaltime,
+      #         mainland_n = 0,
+      #         pars = pars,
+      #         island_ontogeny = island_ontogeny,
+      #         Apars = Apars,
+      #         Epars = Epars,
+      #         Tpars =Tpars_onecolonize,
+      #         keep_final_state = keep_final_state,
+      #         island_spec = NULL
+      #       )
+      #     }
+      #   }
+      # }
+      
       trait_pars_addcol <- create_trait_pars(trans_rate = 0,
                                                      immig_rate2 = 0,
                                                      ext_rate2 = 0,
@@ -195,7 +222,7 @@ DAISIE_sim_trait_dependent <- function(
           dist_pars = dist_pars,
           ext_pars = ext_pars,
           extcutoff = extcutoff,
-          trait_pars = trait_pars
+          trait_pars = trait_pars_addcol
         )
       }
       for(m_spec in (M + 1):(M + trait_pars$M2))

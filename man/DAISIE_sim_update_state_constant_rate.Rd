@@ -4,8 +4,15 @@
 \alias{DAISIE_sim_update_state_constant_rate}
 \title{Updates state of island given sampled event for a constant rate case.}
 \usage{
-DAISIE_sim_update_state_constant_rate(timeval, totaltime, possible_event,
-  maxspecID, mainland_spec, island_spec, stt_table)
+DAISIE_sim_update_state_constant_rate(
+  timeval,
+  totaltime,
+  possible_event,
+  maxspecID,
+  mainland_spec,
+  island_spec,
+  stt_table
+)
 }
 \arguments{
 \item{timeval}{Numeric defining current time of simulation.}

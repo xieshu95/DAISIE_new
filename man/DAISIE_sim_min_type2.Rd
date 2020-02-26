@@ -4,8 +4,14 @@
 \alias{DAISIE_sim_min_type2}
 \title{Internal function of the DAISIE simulation}
 \usage{
-DAISIE_sim_min_type2(time, M, pars, replicates, prop_type2_pool,
-  verbose = TRUE)
+DAISIE_sim_min_type2(
+  time,
+  M,
+  pars,
+  replicates,
+  prop_type2_pool,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{time}{Numeric defining the length of the simulation in time units.

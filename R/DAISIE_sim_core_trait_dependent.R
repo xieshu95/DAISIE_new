@@ -29,7 +29,7 @@ DAISIE_sim_core_trait_dependent <- function(
          Run DAISIE_sim_constant_rate instead.")
   }
   testit::assert(are_area_pars(area_pars))
-  if (pars[4] == 0 && nonoceanic_pars[1] == 0) {
+  if (pars[4] == 0 && trait_pars$immig_rate2 == 0) {
     stop("Island has no species and the rate of
     colonisation is zero. Island cannot be colonised.")
   }

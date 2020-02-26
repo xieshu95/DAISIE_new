@@ -4,11 +4,23 @@
 \alias{DAISIE_sim_constant_rate_shift}
 \title{Simulate islands with given parameters.}
 \usage{
-DAISIE_sim_constant_rate_shift(time, M, pars, replicates,
-  divdepmodel = "CS", nonoceanic_pars = c(0, 0), num_guilds = NULL,
-  sample_freq = 25, plot_sims = TRUE, hyper_pars = NULL,
-  area_pars = NULL, dist_pars = NULL, shift_times = NULL,
-  verbose = TRUE, ...)
+DAISIE_sim_constant_rate_shift(
+  time,
+  M,
+  pars,
+  replicates,
+  divdepmodel = "CS",
+  nonoceanic_pars = c(0, 0),
+  num_guilds = NULL,
+  sample_freq = 25,
+  plot_sims = TRUE,
+  hyper_pars = NULL,
+  area_pars = NULL,
+  dist_pars = NULL,
+  shift_times = NULL,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{time}{Numeric defining the length of the simulation in time units.

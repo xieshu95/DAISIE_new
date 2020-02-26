@@ -4,9 +4,15 @@
 \alias{DAISIE_sim_core_constant_rate}
 \title{Internal function of the DAISIE simulation}
 \usage{
-DAISIE_sim_core_constant_rate(time, mainland_n, pars,
-  nonoceanic_pars = c(0, 0), hyper_pars = NULL, area_pars = NULL,
-  dist_pars = NULL)
+DAISIE_sim_core_constant_rate(
+  time,
+  mainland_n,
+  pars,
+  nonoceanic_pars = c(0, 0),
+  hyper_pars = NULL,
+  area_pars = NULL,
+  dist_pars = NULL
+)
 }
 \arguments{
 \item{time}{Numeric defining the length of the simulation in time units.

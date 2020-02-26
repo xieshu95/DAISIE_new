@@ -4,10 +4,27 @@
 \alias{update_rates}
 \title{Calculates algorithm rates}
 \usage{
-update_rates(timeval, totaltime, gam, laa, lac, mu,
-  hyper_pars = hyper_pars, area_pars = NULL, dist_pars = NULL,
-  ext_pars = NULL, island_ontogeny = NULL, sea_level = NULL,
-  extcutoff, K, num_spec, num_immigrants, mainland_n)
+update_rates(
+  timeval,
+  totaltime,
+  gam,
+  laa,
+  lac,
+  mu,
+  hyper_pars = hyper_pars,
+  area_pars = NULL,
+  dist_pars = NULL,
+  ext_pars = NULL,
+  island_ontogeny = NULL,
+  sea_level = NULL,
+  extcutoff,
+  K,
+  num_spec,
+  num_immigrants,
+  mainland_n,
+  trait_pars = NULL,
+  island_spec = NULL
+)
 }
 \arguments{
 \item{timeval}{A numeric with the current time of simulation}
@@ -71,6 +88,17 @@ species (a.k.a non-endemic species).}
 
 \item{mainland_n}{A numeirc with the total number of species present
 in the mainland}
+
+\item{trait_pars}{A named list containing diversification rates considering two trait states:
+\itemize{
+  \item{[1]:A numeric with the per capita transition rate with state1}
+  \item{[2]:A numeric with the per capita immigration rate with state2}
+  \item{[3]:A numeric with the per capita extinction rate with state2}
+  \item{[4]:A numeric with the per capita anagenesis rate with state2}
+  \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+  \item{[6]:A numeric with the per capita transition rate with state2}
+  \item{[7]:A numeric with the number of species with trait state 2 on mainland}
+}}
 }
 \value{
 a named list with the updated effective rates.
@@ -82,10 +110,13 @@ max extinction horizon at time t.
 \seealso{
 \code{\link{update_max_rates}}
 
-Other rate calculations: \code{\link{DAISIE_plot_area}},
-  \code{\link{get_ana_rate}}, \code{\link{get_ext_rate}},
-  \code{\link{get_immig_rate}},
-  \code{\link{island_area_vector}},
-  \code{\link{island_area}}, \code{\link{update_max_rates}}
+Other rate calculations: 
+\code{\link{DAISIE_plot_area}()},
+\code{\link{get_ana_rate}()},
+\code{\link{get_ext_rate}()},
+\code{\link{get_immig_rate}()},
+\code{\link{island_area_vector}()},
+\code{\link{island_area}()},
+\code{\link{update_max_rates}()}
 }
 \concept{rate calculations}

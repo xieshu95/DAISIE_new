@@ -4,10 +4,27 @@
 \alias{update_max_rates}
 \title{Calculates the maximum rates for a Gillespie simulation}
 \usage{
-update_max_rates(timeval, totaltime, gam, laa, lac, mu,
-  hyper_pars = NULL, area_pars, dist_pars = NULL, ext_pars = NULL,
-  island_ontogeny = NULL, sea_level = NULL, extcutoff, K, num_spec,
-  num_immigrants, mainland_n, global_min_area_time, global_max_area_time)
+update_max_rates(
+  timeval,
+  totaltime,
+  gam,
+  laa,
+  lac,
+  mu,
+  hyper_pars = NULL,
+  area_pars,
+  dist_pars = NULL,
+  ext_pars = NULL,
+  island_ontogeny = NULL,
+  sea_level = NULL,
+  extcutoff,
+  K,
+  num_spec,
+  num_immigrants,
+  mainland_n,
+  global_min_area_time,
+  global_max_area_time
+)
 }
 \arguments{
 \item{timeval}{Numeric defining current time of simulation.}
@@ -103,10 +120,13 @@ Internal function that updates the all the max rates at time t.
 \seealso{
 \code{\link{update_rates}}
 
-Other rate calculations: \code{\link{DAISIE_plot_area}},
-  \code{\link{get_ana_rate}}, \code{\link{get_ext_rate}},
-  \code{\link{get_immig_rate}},
-  \code{\link{island_area_vector}},
-  \code{\link{island_area}}, \code{\link{update_rates}}
+Other rate calculations: 
+\code{\link{DAISIE_plot_area}()},
+\code{\link{get_ana_rate}()},
+\code{\link{get_ext_rate}()},
+\code{\link{get_immig_rate}()},
+\code{\link{island_area_vector}()},
+\code{\link{island_area}()},
+\code{\link{update_rates}()}
 }
 \concept{rate calculations}

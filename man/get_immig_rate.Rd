@@ -4,8 +4,21 @@
 \alias{get_immig_rate}
 \title{Calculate immigration rate}
 \usage{
-get_immig_rate(timeval, totaltime, gam, hyper_pars, area_pars, dist_pars,
-  island_ontogeny, sea_level, num_spec, K, mainland_n)
+get_immig_rate(
+  timeval,
+  totaltime,
+  gam,
+  hyper_pars,
+  area_pars,
+  dist_pars,
+  island_ontogeny,
+  sea_level,
+  num_spec,
+  K,
+  mainland_n,
+  trait_pars = NULL,
+  island_spec = NULL
+)
 }
 \arguments{
 \item{timeval}{current time of simulation}
@@ -61,12 +74,14 @@ Valente, Luis M., Rampal S. Etienne, and Albert B. Phillimore.
 Proceedings of the Royal Society of London B: Biological Sciences 281.1784 (2014): 20133227.
 }
 \seealso{
-Other rate calculations: \code{\link{DAISIE_plot_area}},
-  \code{\link{get_ana_rate}}, \code{\link{get_ext_rate}},
-  \code{\link{island_area_vector}},
-  \code{\link{island_area}},
-  \code{\link{update_max_rates}},
-  \code{\link{update_rates}}
+Other rate calculations: 
+\code{\link{DAISIE_plot_area}()},
+\code{\link{get_ana_rate}()},
+\code{\link{get_ext_rate}()},
+\code{\link{island_area_vector}()},
+\code{\link{island_area}()},
+\code{\link{update_max_rates}()},
+\code{\link{update_rates}()}
 }
 \author{
 Pedro Neves, Joshua Lambert

@@ -5,8 +5,20 @@
 \title{Function to describe changes in extinction rate through time. From
 Valente et al 2014 ProcB}
 \usage{
-get_ext_rate(timeval, mu, ext_pars, hyper_pars, area_pars, island_ontogeny,
-  sea_level = 0, extcutoff = 1000, num_spec, K)
+get_ext_rate(
+  timeval,
+  mu,
+  ext_pars,
+  hyper_pars,
+  area_pars,
+  island_ontogeny,
+  sea_level = 0,
+  extcutoff = 1000,
+  num_spec,
+  K,
+  trait_pars = NULL,
+  island_spec = NULL
+)
 }
 \arguments{
 \item{timeval}{current time of simulation}
@@ -65,12 +77,14 @@ Proceedings of the Royal Society of London B: Biological Sciences 281.1784
 (2014): 20133227.
 }
 \seealso{
-Other rate calculations: \code{\link{DAISIE_plot_area}},
-  \code{\link{get_ana_rate}}, \code{\link{get_immig_rate}},
-  \code{\link{island_area_vector}},
-  \code{\link{island_area}},
-  \code{\link{update_max_rates}},
-  \code{\link{update_rates}}
+Other rate calculations: 
+\code{\link{DAISIE_plot_area}()},
+\code{\link{get_ana_rate}()},
+\code{\link{get_immig_rate}()},
+\code{\link{island_area_vector}()},
+\code{\link{island_area}()},
+\code{\link{update_max_rates}()},
+\code{\link{update_rates}()}
 }
 \author{
 Pedro Neves, Joshua Lambert

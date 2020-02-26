@@ -4,9 +4,18 @@
 \alias{DAISIE_plot_immigration}
 \title{Plot immigration rate through time}
 \usage{
-DAISIE_plot_immigration(totaltime, K, area_pars, gam, mainland_n,
-  hyper_pars = NULL, dist_pars = NULL, island_ontogeny = "beta",
-  removed_timepoints, resolution)
+DAISIE_plot_immigration(
+  totaltime,
+  K,
+  area_pars,
+  gam,
+  mainland_n,
+  hyper_pars = NULL,
+  dist_pars = NULL,
+  island_ontogeny = "beta",
+  removed_timepoints,
+  resolution
+)
 }
 \arguments{
 \item{totaltime}{total time of simulation}

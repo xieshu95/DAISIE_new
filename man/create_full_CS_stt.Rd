@@ -4,7 +4,7 @@
 \alias{create_full_CS_stt}
 \title{Unsampled CS full STT}
 \usage{
-create_full_CS_stt(stt_list, stac_vec, totaltime)
+create_full_CS_stt(stt_list, stac_vec, totaltime, trait_pars = NULL)
 }
 \arguments{
 \item{stt_list}{List of full stt tables as

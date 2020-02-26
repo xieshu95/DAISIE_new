@@ -4,24 +4,113 @@
 \alias{default_params_doc}
 \title{Defailt parameter documentation}
 \usage{
-default_params_doc(time, M, pars, replicates, divdepmodel, nonoceanic_pars,
-  num_guilds, prop_type2_pool, replicates_apply_type2, sample_freq,
-  plot_sims, verbose, area_pars, hyper_pars, dist_pars, ext_pars,
-  island_ontogeny, sea_level, extcutoff, shift_times, mainland_n,
-  island_replicates, island_spec, stt_table, rates, max_rates, timeval,
-  totaltime, possible_event, maxspecID, mainland_spec, max_area,
-  proportional_peak_t, peak_sharpness, total_island_age,
-  sea_level_amplitude, sea_level_frequency, island_gradient_angle, d_0, x,
-  alpha, beta, D, simulation_outputs, plot_plus_one, type, plot_lists, ...,
-  datalist, datatype, initparsopt, idparsopt, idparsfix, parsfix,
-  idparsnoshift, idparsmat, res, ddmodel, cond, eqmodel, x_E, x_I, tol,
-  maxiter, methode, optimmethod, CS_version, tolint, datatable, island_age,
-  number_clade_types, list_type2_clades, epss, t, initEI, data_table,
-  endmc, archipelago, phylo_data, archipelago_data, gam, laa, lac, mu, K,
-  num_spec, num_immigrants, global_min_area_time, global_max_area_time,
-  distance_type, distance_dep, parallel, cpus, pars1, pars2, tvec,
-  initprobs, pb, island, title, plot_lists_simulations,
-  plot_lists_simulations_MLE, kind_of_plot, resolution)
+default_params_doc(
+  time,
+  M,
+  pars,
+  replicates,
+  divdepmodel,
+  nonoceanic_pars,
+  num_guilds,
+  prop_type2_pool,
+  replicates_apply_type2,
+  sample_freq,
+  plot_sims,
+  verbose,
+  area_pars,
+  hyper_pars,
+  dist_pars,
+  ext_pars,
+  island_ontogeny,
+  sea_level,
+  extcutoff,
+  shift_times,
+  mainland_n,
+  island_replicates,
+  island_spec,
+  stt_table,
+  rates,
+  max_rates,
+  timeval,
+  totaltime,
+  possible_event,
+  maxspecID,
+  mainland_spec,
+  max_area,
+  proportional_peak_t,
+  peak_sharpness,
+  total_island_age,
+  sea_level_amplitude,
+  sea_level_frequency,
+  island_gradient_angle,
+  d_0,
+  x,
+  alpha,
+  beta,
+  D,
+  simulation_outputs,
+  plot_plus_one,
+  type,
+  plot_lists,
+  ...,
+  datalist,
+  datatype,
+  initparsopt,
+  idparsopt,
+  idparsfix,
+  parsfix,
+  idparsnoshift,
+  idparsmat,
+  res,
+  ddmodel,
+  cond,
+  eqmodel,
+  x_E,
+  x_I,
+  tol,
+  maxiter,
+  methode,
+  optimmethod,
+  CS_version,
+  tolint,
+  datatable,
+  island_age,
+  number_clade_types,
+  list_type2_clades,
+  epss,
+  t,
+  initEI,
+  data_table,
+  endmc,
+  archipelago,
+  phylo_data,
+  archipelago_data,
+  gam,
+  laa,
+  lac,
+  mu,
+  K,
+  num_spec,
+  num_immigrants,
+  global_min_area_time,
+  global_max_area_time,
+  distance_type,
+  distance_dep,
+  parallel,
+  cpus,
+  pars1,
+  pars2,
+  tvec,
+  initprobs,
+  pb,
+  island,
+  title,
+  plot_lists_simulations,
+  plot_lists_simulations_MLE,
+  kind_of_plot,
+  resolution,
+  trait_pars
+)
 }
 \arguments{
 \item{time}{Numeric defining the length of the simulation in time units.
@@ -513,6 +602,18 @@ based simulations should be plotted. Default is \code{"line"} for multiple
 individual lines. Can also be \code{"shade"} for the 5\% quantile.}
 
 \item{resolution}{numeric indicating resolution of plot. Should be < 0.}
+
+\item{trait_pars}{A named list containing diversification rates considering 
+two trait states created by \code{\link{create_trait_pars}}:
+\itemize{
+  \item{[1]:A numeric with the per capita transition rate with state1}
+  \item{[2]:A numeric with the per capita immigration rate with state2}
+  \item{[3]:A numeric with the per capita extinction rate with state2}
+  \item{[4]:A numeric with the per capita anagenesis rate with state2}
+  \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+  \item{[6]:A numeric with the per capita transition rate with state2} 
+  \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
+}}
 }
 \value{
 Nothing

@@ -4,7 +4,14 @@
 \alias{get_ana_rate}
 \title{Calculate anagenesis rate}
 \usage{
-get_ana_rate(laa, hyper_pars, dist_pars, num_immigrants)
+get_ana_rate(
+  laa,
+  hyper_pars,
+  dist_pars,
+  num_immigrants,
+  island_spec = NULL,
+  trait_pars = NULL
+)
 }
 \arguments{
 \item{laa}{per capita anagenesis rate}
@@ -30,12 +37,14 @@ Calculates the anagenesis rate given the current number of
 immigrant species and the per capita rate.
 }
 \seealso{
-Other rate calculations: \code{\link{DAISIE_plot_area}},
-  \code{\link{get_ext_rate}}, \code{\link{get_immig_rate}},
-  \code{\link{island_area_vector}},
-  \code{\link{island_area}},
-  \code{\link{update_max_rates}},
-  \code{\link{update_rates}}
+Other rate calculations: 
+\code{\link{DAISIE_plot_area}()},
+\code{\link{get_ext_rate}()},
+\code{\link{get_immig_rate}()},
+\code{\link{island_area_vector}()},
+\code{\link{island_area}()},
+\code{\link{update_max_rates}()},
+\code{\link{update_rates}()}
 }
 \author{
 Pedro Neves, Joshua Lambert

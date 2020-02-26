@@ -9,7 +9,7 @@ DAISIE_format_CS_sampled_stt <- function(island_replicates,
                                          M,
                                          sample_freq,
                                          verbose = TRUE,
-                                         trait_pars) {
+                                         trait_pars = NULL) {
   
   if (!is.null(trait_pars)) {
     return(
@@ -54,8 +54,8 @@ DAISIE_format_CS_sampled_stt <- function(island_replicates,
       immig_spec <- c()
       ana_spec <- c()
       for (i in 1:M) {
-        immig_spec[[i]] <- sum(full_list[[i]]$stt_table[1, 2])
-        ana_spec[[i]] <- sum(full_list[[i]]$stt_table[1, 3])
+        immig_spec[i] <- sum(full_list[[i]]$stt_table[1, 2])
+        ana_spec[i] <- sum(full_list[[i]]$stt_table[1, 3])
       }
       immig_spec <- sum(immig_spec)
       ana_spec <- sum(ana_spec)
@@ -194,16 +194,11 @@ DAISIE_format_CS_trait <- function(island_replicates,
   for(rep in 1:length(island_replicates))
   {
     full_list <- island_replicates[[rep]]
-    
     stac_vec <- unlist(full_list)[which(names(unlist(full_list)) == "stac")]
     number_not_present <- length(which(stac_vec == 0))
     present <- which(stac_vec!=0)
     number_present <- length(present)
-    
     type_vec <- unlist(full_list)[which(names(unlist(full_list)) == "type1or2")]
-    if(!length(which(type_vec == 2)) == 0 && !is.null(trait_pars)){
-      stop("Two species types and two trait states not considered simutanously.")
-    }
     prop_type2_pool <- length(which(type_vec == 2)) / M
     
     number_type2_cols <- length(which(match(which(stac_vec != 0),which(type_vec == 2)) > 0))
@@ -217,8 +212,6 @@ DAISIE_format_CS_trait <- function(island_replicates,
     
     ### all species
     stt_list = list()
-    
-    
     for(i in 1:(M + trait_pars$M2))
     {
       stt_list[[i]] = full_list[[i]]$stt_table
@@ -227,11 +220,26 @@ DAISIE_format_CS_trait <- function(island_replicates,
     
     colnames(stt_all) = c("Time","nI","nA","nC","nI2","nA2","nC2","present")
     stt_all[,"Time"] = rev(seq(from = 0,to = totaltime,length.out = sample_freq + 1))
-    if (start_midway == FALSE) {
-      stt_all[1,2:8] = c(0,0,0,0,0,0,0)
-    } else if (start_midway == TRUE) {
-      stop("No considering start midway with two trait states.")
+  
+    ####
+    immig_spec <- c()
+    ana_spec <- c()
+    immig_spec2 <- c()
+    ana_spec2 <- c()
+    for (i in 1:(M + trait_pars$M2)) {
+      immig_spec[i] <- sum(full_list[[i]]$stt_table[1, 2])
+      ana_spec[i] <- sum(full_list[[i]]$stt_table[1, 3])
+      immig_spec2[i] <- sum(full_list[[i]]$stt_table[1, 5])
+      ana_spec2[i] <- sum(full_list[[i]]$stt_table[1, 6])
     }
+    immig_spec <- sum(immig_spec)
+    ana_spec <- sum(ana_spec)
+    immig_spec2 <- sum(immig_spec2)
+    ana_spec2 <- sum(ana_spec2)
+    init_present <- immig_spec + ana_spec + immig_spec2 + ana_spec2
+    stt_all[1, 2:8] <- c(immig_spec, ana_spec, 0, immig_spec2, ana_spec2, 0, init_present)
+    
+    ####
     for(i in 2:nrow(stt_all))
     {
       the_age = stt_all[i,"Time"]

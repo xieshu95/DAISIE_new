@@ -599,7 +599,7 @@ get_clado_rate <- function(timeval,
       0, lac * num_spec_trait1 * A ^ (d_0 * log(D)) * (1 - num_spec / (K * A)),
       na.rm = TRUE)
     clado_rate2 <- max(
-      0, lac * num_spec_trait2 * A ^ (d_0 * log(D)) * (1 - num_spec / (K * A)),
+      0, trait_pars$clado_rate2 * num_spec_trait2 * A ^ (d_0 * log(D)) * (1 - num_spec / (K * A)),
       na.rm = TRUE
     )
     testit::assert(clado_rate1 >= 0)

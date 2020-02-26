@@ -7,7 +7,8 @@
 DAISIE_format_CS_full_stt <- function(island_replicates,
                                       time,
                                       M,
-                                      verbose = TRUE
+                                      verbose = TRUE,
+                                      trait_pars = NULL
 ) {
   totaltime <- time
   several_islands <- list()
@@ -28,32 +29,57 @@ DAISIE_format_CS_full_stt <- function(island_replicates,
     }
     ### all species
     stt_list <- list()
-    for (i in 1:M) {
-      stt_list[[i]] <- full_list[[i]]$stt_table
+    if(is.null(trait_pars)){
+      for (i in 1:M) {
+        stt_list[[i]] <- full_list[[i]]$stt_table
+      } 
+    }else{
+      for (i in 1:(M + trait_pars$M2)) {
+        stt_list[[i]] <- full_list[[i]]$stt_table
+      } 
     }
-
+    
     #### Keep full STT ####
     stt_all <- create_full_CS_stt(
       stt_list = stt_list,
       stac_vec = stac_vec,
-      totaltime = totaltime
+      totaltime = totaltime,
+      trait_pars = trait_pars
     )
-
+    ####  two trait states####
+    if(!is.null(trait_pars)){
+      immig_spec <- c()
+      ana_spec <- c()
+      immig_spec2 <- c()
+      ana_spec2 <- c()
+      for (i in 1:(M + trait_pars$M2)) {
+        immig_spec[i] <- sum(full_list[[i]]$stt_table[1, 2])
+        ana_spec[i] <- sum(full_list[[i]]$stt_table[1, 3])
+        immig_spec2[i] <- sum(full_list[[i]]$stt_table[1, 5])
+        ana_spec2[i] <- sum(full_list[[i]]$stt_table[1, 6])
+      }
+      immig_spec <- sum(immig_spec)
+      ana_spec <- sum(ana_spec)
+      immig_spec2 <- sum(immig_spec2)
+      ana_spec2 <- sum(ana_spec2)
+      init_present <- immig_spec + ana_spec + immig_spec2 + ana_spec2
+      stt_all[1, 2:8] <- c(immig_spec, ana_spec, 0, immig_spec2, ana_spec2, 0, init_present)
+    }else{
     #### Oceanic vs nonoceanic ####
-
+      
       immig_spec <- c()
       ana_spec <- c()
       for (i in 1:M) {
-        immig_spec[[i]] <- sum(full_list[[i]]$stt_table[1, 2])
-        ana_spec[[i]] <- sum(full_list[[i]]$stt_table[1, 3])
+        immig_spec[i] <- sum(full_list[[i]]$stt_table[1, 2])
+        ana_spec[i] <- sum(full_list[[i]]$stt_table[1, 3])
       }
       immig_spec <- sum(immig_spec)
       ana_spec <- sum(ana_spec)
       init_present <- immig_spec + ana_spec
       stt_all[1, 2:5] <- c(immig_spec, ana_spec, 0, init_present)
-
-
-
+    }
+    
+    
     #### 2 type ####
     if (number_type2_cols > 0) {
       # Type 1
@@ -64,7 +90,8 @@ DAISIE_format_CS_full_stt <- function(island_replicates,
       stt_type1 <- create_full_CS_stt(
         stt_list = stt_list_type1,
         stac_vec = stac_vec,
-        totaltime = totaltime
+        totaltime = totaltime,
+        trait_pars = trait_pars
       )
 
 
@@ -78,7 +105,8 @@ DAISIE_format_CS_full_stt <- function(island_replicates,
       stt_type2 <- create_full_CS_stt(
         stt_list = stt_list_type2,
         stac_vec = stac_vec,
-        totaltime = totaltime
+        totaltime = totaltime,
+        trait_pars = trait_pars
       )
 
       island_list[[1]] <- list(island_age = totaltime,

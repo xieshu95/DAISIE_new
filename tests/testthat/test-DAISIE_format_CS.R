@@ -289,8 +289,9 @@ test_that("use full stt", {
   )
 })
 
+
 test_that("use complete stt with ontogeny", {
-  skip("passes on test but fails on check")
+  # skip("passes on test but fails on check")
   totaltime <- 10
   mainland_n <- 1
   verbose <- FALSE
@@ -446,5 +447,76 @@ test_that("full stt works with empty island", {
       sample_freq = sample_freq,
       verbose = verbose
     )
+  )
+})
+
+test_that("full stt with two trait states", {
+  pars <- c(0.4, 0.2, 20, 2, 0.5)
+  time <- 5
+  mainland_n <- 0
+  verbose <- FALSE
+  sample_freq <- Inf
+  trait_pars = create_trait_pars(
+    trans_rate = 0,
+    immig_rate2 = 1,
+    ext_rate2 = 0.4,
+    ana_rate2 = 0.8,
+    clado_rate2 = 0.4,
+    trans_rate2 = 0,
+    M2 = 1)
+  set.seed(1)
+  island_replicates <- list()
+  out <- list()
+  out[[1]] <- DAISIE:::DAISIE_sim_core_trait_dependent(
+    time = time,
+    pars = pars,
+    mainland_n = mainland_n,
+    trait_pars = trait_pars
+  )
+  island_replicates[[1]] <- out
+  expect_silent(
+    formatted_CS_sim <- DAISIE:::DAISIE_format_CS(
+      island_replicates = island_replicates,
+      time = time,
+      M = mainland_n,
+      sample_freq = sample_freq,
+      verbose = verbose,
+      trait_pars = trait_pars
+    )
+  )
+  expect_equal(
+    formatted_CS_sim[[1]][[1]]$island_age,
+    5
+  )
+  expect_equal(
+    formatted_CS_sim[[1]][[1]]$not_present,
+    0
+  )
+  expect_equal(
+    formatted_CS_sim[[1]][[1]]$stt_all[2, ],
+    c(Time = 4.24481817, nI = 0.0, nA = 0.0, nC = 0.0, nI2 = 1.0, nA2 = 0.0, nC2 = 0.0, present = 1.0)
+  )
+  expect_equal(
+    formatted_CS_sim[[1]][[1]]$stt_all[5, ],
+    c(Time = 3.61806444, nI = 0.0, nA = 0.0, nC = 0.0, nI2 = 1.0, nA2 = 0.0, nC2 = 2.0, present = 3.0)
+  )
+  expect_equal(
+    formatted_CS_sim[[1]][[1]]$stt_all[11, ],
+    c(Time = 1.17170697, nI = 0.0, nA = 0.0, nC = 0.0, nI2 = 0.0, nA2 = 3.0, nC2 = 0.0, present = 3.0)
+  )
+  
+  expect_equal(
+    formatted_CS_sim[[1]][[2]]$branching_times,
+    c(5.00000000, 4.24481817, 0.01277218)
+  )
+  
+  expect_equal(
+    formatted_CS_sim[[1]][[2]]$stac,
+    3
+  )
+  
+  expect_equal(
+    formatted_CS_sim[[1]][[2]]$missing_species,
+    0
   )
 })

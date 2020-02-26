@@ -303,3 +303,72 @@ test_that("abuse", {
 test_that("abuse", {
   expect_error(DAISIE:::Add_brt_table("nonsense"))
 })
+
+test_that("silent when species with two trait states with
+          correct output", {
+            pars <- c(0.4, 0.2, 10, 0.01, 0.5)
+            time <- 5
+            mainland_n <- 10
+            nonoceanic_pars <- c(0, 0)
+            verbose <- FALSE
+            replicates <- 3
+            island_ontogeny = 0
+            sea_level = 0
+            extcutoff = 1000
+            sample_freq <- 1
+            trait_pars <- create_trait_pars(
+              trans_rate = 0,
+              immig_rate2 = 0.02,
+              ext_rate2 = 0.2,
+              ana_rate2 = 0.5,
+              clado_rate2 = 0.4,
+              trans_rate2 = 0,
+              M2 = 10)
+            island_replicates <- list()
+            verbose <- FALSE
+            set.seed(1)
+            island_replicates[[1]] <- DAISIE:::DAISIE_sim_core_trait_dependent(
+              time = time,
+              mainland_n = mainland_n,
+              pars = pars,
+              nonoceanic_pars = nonoceanic_pars,
+              trait_pars = trait_pars,
+              island_ontogeny = island_ontogeny,
+              sea_level = sea_level,
+              extcutoff = extcutoff
+            )
+            expect_silent(
+              formated_IW_sim <- DAISIE:::DAISIE_format_IW(
+                island_replicates = island_replicates,
+                time = time,
+                M = mainland_n,
+                sample_freq = sample_freq,
+                verbose = verbose,
+                trait_pars = trait_pars
+              )
+            )
+            expected_IW_format <- list()
+            expected_IW_format[[1]] <- list()
+            stt_all <- matrix(ncol = 7, nrow = 2)
+            colnames(stt_all) <- c("Time", "nI", "nA", "nC", "nI2", "nA2", "nC2")
+            stt_all[1, ] <- c(1, 1, 2, 0)
+            stt_all[2, ] <- c(0, 0, 2, 0)
+            brts_table <- matrix(ncol = 4, nrow = 3)
+            colnames(brts_table) <- c("brt", "clade", "event", "endemic")
+            brts_table[1, ] <- c(1, 0, 0, NA)
+            brts_table[2, ] <- c(1, 2, 1, 1)
+            brts_table[3, ] <- c(1, 1, 1, 1)
+            expected_IW_format[[1]][[1]] <- list(island_age = 1,
+                                                 not_present = 2,
+                                                 stt_all = stt_all,
+                                                 brts_table = brts_table)
+            expected_IW_format[[1]][[2]] <- list(branching_times = c(1,
+                                                                     1),
+                                                 stac = 2,
+                                                 missing_species = 0)
+            expected_IW_format[[1]][[3]] <- list(branching_times = c(1,
+                                                                     1),
+                                                 stac = 2,
+                                                 missing_species = 0)
+            expect_true(all.equal(formated_IW_sim, expected_IW_format, tolerance = 1e-7))
+          })

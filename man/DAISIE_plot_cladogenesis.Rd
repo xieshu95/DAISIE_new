@@ -4,9 +4,17 @@
 \alias{DAISIE_plot_cladogenesis}
 \title{Plot cladogenesis rate through time}
 \usage{
-DAISIE_plot_cladogenesis(totaltime, K, area_pars, lac,
-  island_ontogeny = "beta", hyper_pars = NULL, dist_pars = NULL,
-  removed_timepoints, resolution)
+DAISIE_plot_cladogenesis(
+  totaltime,
+  K,
+  area_pars,
+  lac,
+  island_ontogeny = "beta",
+  hyper_pars = NULL,
+  dist_pars = NULL,
+  removed_timepoints,
+  resolution
+)
 }
 \arguments{
 \item{totaltime}{total time of simulation}

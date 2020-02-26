@@ -5,8 +5,14 @@
 \title{Formats guild-wide simulation output into standard DAISIE
 list output}
 \usage{
-DAISIE_format_GW(island_replicates, time, M, sample_freq, num_guilds,
-  verbose = TRUE)
+DAISIE_format_GW(
+  island_replicates,
+  time,
+  M,
+  sample_freq,
+  num_guilds,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{island_replicates}{List output from

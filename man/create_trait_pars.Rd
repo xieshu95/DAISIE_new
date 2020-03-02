@@ -14,6 +14,21 @@ create_trait_pars(
   M2
 )
 }
+\arguments{
+\item{trans_rate}{A numeric with the per capita transition rate with state1}
+
+\item{immig_rate2}{A numeric with the per capita immigration rate with state2}
+
+\item{ext_rate2}{A numeric with the per capita extinction rate with state2}
+
+\item{ana_rate2}{A numeric with the per capita anagenesis rate with state2}
+
+\item{clado_rate2}{A numeric with the per capita cladogenesis rate with state2}
+
+\item{trans_rate2}{A numeric with the per capita transition rate with state2}
+
+\item{M2}{A numeric with the number of species with trait state 2 on mainland}
+}
 \value{
 list of numerical values containing trait state parameters
 }

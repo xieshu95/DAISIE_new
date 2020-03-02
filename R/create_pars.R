@@ -285,7 +285,13 @@ are_trait_pars <- function(trait_pars) {
 
 #' Create named list of trait state parameters
 #'
-#' @inheritParams default_params_doc
+#' @param trans_rate   A numeric with the per capita transition rate with state1
+#' @param immig_rate2  A numeric with the per capita immigration rate with state2
+#' @param ext_rate2    A numeric with the per capita extinction rate with state2
+#' @param ana_rate2    A numeric with the per capita anagenesis rate with state2
+#' @param clado_rate2  A numeric with the per capita cladogenesis rate with state2
+#' @param trans_rate2  A numeric with the per capita transition rate with state2
+#' @param M2           A numeric with the number of species with trait state 2 on mainland
 #'
 #' @return list of numerical values containing trait state parameters 
 #' @export

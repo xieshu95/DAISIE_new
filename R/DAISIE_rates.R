@@ -58,6 +58,8 @@
 #'   \item{[6]:A numeric with the per capita transition rate with state2}
 #'   \item{[7]:A numeric with the number of species with trait state 2 on mainland}
 #' }
+#' @param island_spec Matrix with current state of simulation containing number
+#' of species.
 #' @seealso \code{\link{update_max_rates}}
 #'
 #' @return a named list with the updated effective rates.
@@ -406,6 +408,19 @@ island_area <- function(timeval,
 #' }
 #' @param num_spec a numeric with the current number of species
 #' @param mu extinction rate
+#' @param trait_pars A named list containing diversification rates considering 
+#' two trait states created by \code{\link{create_trait_pars}}:
+#' \itemize{
+#'   \item{[1]:A numeric with the per capita transition rate with state1}
+#'   \item{[2]:A numeric with the per capita immigration rate with state2}
+#'   \item{[3]:A numeric with the per capita extinction rate with state2}
+#'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
+#'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+#'   \item{[6]:A numeric with the per capita transition rate with state2} 
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
+#' }
+#' @param island_spec Matrix with current state of simulation containing number
+#' of species.
 #'
 #' @export
 #' @family rate calculations
@@ -487,7 +502,19 @@ get_ext_rate <- function(timeval,
 #' @param dist_pars a numeric for the distance from the mainland.
 #' @param num_immigrants a numeric with the current number of non-endemic
 #' species (a.k.a non-endemic species).
-#'
+#' @param trait_pars A named list containing diversification rates considering 
+#' two trait states created by \code{\link{create_trait_pars}}:
+#' \itemize{
+#'   \item{[1]:A numeric with the per capita transition rate with state1}
+#'   \item{[2]:A numeric with the per capita immigration rate with state2}
+#'   \item{[3]:A numeric with the per capita extinction rate with state2}
+#'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
+#'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+#'   \item{[6]:A numeric with the per capita transition rate with state2} 
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
+#' }
+#' @param island_spec Matrix with current state of simulation containing number
+#' of species.
 #' @export
 #' @family rate calculations
 #' @author Pedro Neves, Joshua Lambert
@@ -554,7 +581,19 @@ get_ana_rate <- function(laa,
 #' }
 #' @param dist_pars a numeric for the distance from the mainland.
 #' @param num_spec a numeric with the ccurrent number of species.
-#'
+#' @param trait_pars A named list containing diversification rates considering 
+#' two trait states created by \code{\link{create_trait_pars}}:
+#' \itemize{
+#'   \item{[1]:A numeric with the per capita transition rate with state1}
+#'   \item{[2]:A numeric with the per capita immigration rate with state2}
+#'   \item{[3]:A numeric with the per capita extinction rate with state2}
+#'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
+#'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+#'   \item{[6]:A numeric with the per capita transition rate with state2} 
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
+#' }
+#' @param island_spec Matrix with current state of simulation containing number
+#' of species.
 #' @export
 #' @author Pedro Neves
 #' @references Valente, Luis M., Rampal S. Etienne, and Albert B. Phillimore.
@@ -648,7 +687,19 @@ get_clado_rate <- function(timeval,
 #' Can be \code{NULL}, \code{1} for a beta function describing
 #' area through time.
 #' @param num_spec a numeric with the current number of species.
-#'
+#' @param trait_pars A named list containing diversification rates considering 
+#' two trait states created by \code{\link{create_trait_pars}}:
+#' \itemize{
+#'   \item{[1]:A numeric with the per capita transition rate with state1}
+#'   \item{[2]:A numeric with the per capita immigration rate with state2}
+#'   \item{[3]:A numeric with the per capita extinction rate with state2}
+#'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
+#'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
+#'   \item{[6]:A numeric with the per capita transition rate with state2} 
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
+#' }
+#' @param island_spec Matrix with current state of simulation containing number
+#' of species.
 #' @export
 #' @family rate calculations
 #' @author Pedro Neves, Joshua Lambert
@@ -706,17 +757,19 @@ get_immig_rate <- function(timeval,
 #' @description Internal function.
 #' Calculates the transition rate given the current number of
 #' immigrant species and the per capita rate.
-#' @param Tpars A named list containing diversification rates considering two trait states:
+#' @param trait_pars A named list containing diversification rates considering 
+#' two trait states created by \code{\link{create_trait_pars}}:
 #' \itemize{
 #'   \item{[1]:A numeric with the per capita transition rate with state1}
 #'   \item{[2]:A numeric with the per capita immigration rate with state2}
 #'   \item{[3]:A numeric with the per capita extinction rate with state2}
 #'   \item{[4]:A numeric with the per capita anagenesis rate with state2}
 #'   \item{[5]:A numeric with the per capita cladogenesis rate with state2}
-#'   \item{[6]:A numeric with the per capita transition rate with state2}
-#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland}
+#'   \item{[6]:A numeric with the per capita transition rate with state2} 
+#'   \item{[7]:A numeric with the number of species with trait state 2 on mainland} 
 #' }
-#' @param island_spec matrix with current state of system
+#' @param island_spec Matrix with current state of simulation containing number
+#' of species.
 #' @family rates calculation
 get_trans_rate <- function(trait_pars,
                            island_spec){

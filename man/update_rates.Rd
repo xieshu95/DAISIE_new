@@ -99,6 +99,9 @@ in the mainland}
   \item{[6]:A numeric with the per capita transition rate with state2}
   \item{[7]:A numeric with the number of species with trait state 2 on mainland}
 }}
+
+\item{island_spec}{Matrix with current state of simulation containing number
+of species.}
 }
 \value{
 a named list with the updated effective rates.
